@@ -6,18 +6,18 @@ using System.Net.NetworkInformation;
 
 namespace Proiect_An.Controllers
 {
-    public class ItemsController : Controller
+    public class RoomController : Controller
     {
         private readonly MyAppContext _context;
 
-        public ItemsController(MyAppContext context)
+        public RoomController(MyAppContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var item = await _context.Items.ToListAsync();
+            var item = await _context.Rooms.ToListAsync();
             return View(item);
         }
 
@@ -27,11 +27,11 @@ namespace Proiect_An.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Name, Price")] Item item)
+        public async Task<IActionResult> Create([Bind("Id, Type, PricePerNight, BedType, IsAvailable")] Room item)
         {
             if (ModelState.IsValid)
             {
-                _context.Items.Add(item);
+                _context.Rooms.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -42,11 +42,11 @@ namespace Proiect_An.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Rooms.FirstOrDefaultAsync(x => x.Id == id);
             return View(item);  
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Name, Price")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Type, PricePerNight, BedType, IsAvailable")] Room item)
         {
             if (ModelState.IsValid)
             {
@@ -58,16 +58,16 @@ namespace Proiect_An.Controllers
         }
         public async Task<IActionResult> Delete(int id)
         {
-            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Rooms.FirstOrDefaultAsync(x => x.Id == id);
             return View(item);
         }
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Items.FindAsync(id);
+            var item = await _context.Rooms.FindAsync(id);
             if(item != null)
             {
-                _context.Items.Remove(item);
+                _context.Rooms.Remove(item);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");

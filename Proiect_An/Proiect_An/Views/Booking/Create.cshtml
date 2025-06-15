@@ -1,0 +1,36 @@
+﻿@model Proiect_An.Models.Booking
+@{
+    //ViewData["Title"] = $"Book Room - {ViewBag.RoomType}";
+}
+
+@*<h2>Create Booking for @ViewBag.RoomType ($@ViewBag.RoomPrice.ToString("N2")/night)</h2>*@
+
+<form asp-action="Create" method="post">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <input type="hidden" asp-for="RoomId" />
+
+    <div class="form-group">
+        <label asp-for="GuestName" class="control-label"></label>
+        <input asp-for="GuestName" class="form-control" />
+        <span asp-validation-for="GuestName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CheckIn" class="control-label"></label>
+        <input asp-for="CheckIn" type="date" class="form-control" />
+        <span asp-validation-for="CheckIn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CheckOut" class="control-label"></label>
+        <input asp-for="CheckOut" type="date" class="form-control" />
+        <span asp-validation-for="CheckOut" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create Booking" class="btn btn-primary" />
+    </div>
+</form>
+
+

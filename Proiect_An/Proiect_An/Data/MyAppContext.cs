@@ -9,6 +9,7 @@ namespace Proiect_An.Data
         {
 
         }
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 }

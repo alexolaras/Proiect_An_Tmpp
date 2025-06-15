@@ -1,4 +1,4 @@
-﻿@model List<Proiect_An.Models.Item>
+﻿@model List<Proiect_An.Models.Room>
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,19 +7,23 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Price</th>
+            <th>Type</th>
+            <th>Price per night</th>
+            <th>Bed type</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model)
         {
             <tr>
-                <td>@item.Name</td>
-                <td>@item.Price.ToString("N2")</td>
+                <td>@item.Type</td>
+                <td>@item.PricePerNight.ToString("N2")</td>
+                <td>@item.BedType</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Create" asp-controller="Booking" asp-route-id="@item.Id">Create booking</a>
                 </td>
             </tr>
         }

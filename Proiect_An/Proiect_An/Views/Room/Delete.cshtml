@@ -1,11 +1,12 @@
-﻿@model Proiect_An.Models.Item
+﻿@model Proiect_An.Models.Room
 @{
     ViewData["Title"] = "Delete";
 }
 <h3>Delete this item?</h3>
 
-<p>@Model.Name</p>
-<p>@Model.Price</p>
+<p>@Model.Type</p>
+<p>@Model.PricePerNight</p>
+<p>@Model.BedType</p>
 
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="Id"/>
