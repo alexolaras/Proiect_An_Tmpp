@@ -19,6 +19,8 @@ namespace Proiect_An.Controllers
         {
             var item = await _context.Rooms.ToListAsync();
             return View(item);
+
+            
         }
 
         public IActionResult Create()
@@ -27,7 +29,7 @@ namespace Proiect_An.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Type, PricePerNight, BedType, IsAvailable")] Room item)
+        public async Task<IActionResult> Create(int id, [Bind("Id, Type, PricePerNight, BedType, IsAvailable")] Room item)
         {
             if (ModelState.IsValid)
             {

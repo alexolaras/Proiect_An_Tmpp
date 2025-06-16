@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Proiect_An.Models.Guest>
+
+<h2>All Guests</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var g in Model)
+        {
+            <tr>
+                <td>@g.Name</td>
+                <td>@g.PhoneNumber</td>
+                <td>@g.Address</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@g.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@g.Id">Delete</a>
+                </td>
+            </tr>
+            
+
+        }
+    </tbody>
+</table>
+<a asp-action="Create">Add New Guest</a>

@@ -1,15 +1,18 @@
 ﻿@model Proiect_An.Models.Booking
+@{
+    var guests = ViewBag.Guests as List<Proiect_An.Models.Guest>;
+}
 
-<h2>Create Booking</h2>
-<form asp-action="Create" method="post">
-    <input asp-for="RoomId" type="hidden"/>
+<h2>Edit Booking</h2>
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="RoomId" />
     <div>
-
         <label>Guest</label>
         <select asp-for="GuestId">
-            @foreach (var guest in (List<Proiect_An.Models.Guest>)ViewBag.Guests)
+            @foreach (var guest in guests)
             {
-                <option value="@guest.Id">@guest.Name</option>
+                <option value="@guest.Id")>@guest.Name</option>
             }
         </select>
     </div>
@@ -21,5 +24,5 @@
         <label>Check Out</label>
         <input asp-for="CheckOut" type="date" />
     </div>
-    <button type="submit">Book</button>
+    <button type="submit">Save</button>
 </form>

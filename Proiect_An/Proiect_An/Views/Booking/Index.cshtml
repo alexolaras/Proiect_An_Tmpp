@@ -1,26 +1,32 @@
-﻿<h3>Index</h3>
+﻿@model IEnumerable<Proiect_An.Models.Booking>
 
+
+<h2>All Bookings</h2>
 <table class="table">
     <thead>
         <tr>
             <th>Guest Name</th>
-            <th>Check In Date</th>
-            <th>Check Out Date</th>
-            <th>Actions</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Room Id</th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var b in Model)
         {
             <tr>
-                <td>@item.GuesName</td>
-                <td>@item.CheckIn</td>
-                <td>@item.CheckOut</td>
-                @*<td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>*@
+                <td>@b.Guest.Name</td>
+                <td>@b.CheckIn.ToShortDateString()</td>
+                <td>@b.CheckOut.ToShortDateString()</td>
+                <td>@b.RoomId</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@b.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@b.Id">Delete</a>
+                </td>
             </tr>
+            
+
         }
     </tbody>
 </table>

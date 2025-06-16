@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.EntityFrameworkCore;
-using Proiect_An.Data;
 using Proiect_An.Models;
+using Proiect_An.Data;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Proiect_An.Controllers
 {
@@ -15,68 +15,77 @@ namespace Proiect_An.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Create(int? id)
         {
-            var bookings = _context.Bookings.Include(b => b.Room).ToList();
-            return View(bookings);
-        }
+            var guests = await _context.Guests.ToListAsync();
+            ViewBag.Guests = guests;
 
-        public IActionResult Create(int id)
-        {
-            var room = _context.Rooms.Find(id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            var booking = new Booking
-            {
-                RoomId = room.Id,
-            };
-
+            var booking = new Booking();
+            if (id.HasValue)
+                booking.RoomId = id.Value;
             return View(booking);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Booking booking)
+        public async Task<IActionResult> Create([Bind("GuestId,CheckIn,CheckOut,RoomId")] Booking booking)
         {
+            _context.Bookings.Add(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
-            Console.WriteLine("POST Create hit");
-            Console.WriteLine($"RoomId: {booking.RoomId}, GuestName: {booking.GuestName}, CheckIn: {booking.CheckIn}, CheckOut: {booking.CheckOut}");
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
 
-            if (!ModelState.IsValid)
-            {
-                Console.WriteLine("ModelState is invalid!");
-                foreach (var entry in ModelState)
-                {
-                    foreach (var error in entry.Value.Errors)
-                    {
-                        Console.WriteLine($"Field '{entry.Key}' error: {error.ErrorMessage}");
-                    }
-                }
-            }
-            var room = await _context.Rooms.FindAsync(booking.RoomId);
-            if (room == null)
-            {
-                ModelState.AddModelError("", "Selected room does not exist.");
-            }
+            var booking = await _context.Bookings
+                .Include(b => b.Guest)
+                .FirstOrDefaultAsync(b => b.Id == id);
+            if (booking == null) return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                booking.Room = room;
-                _context.Bookings.Add(booking);
-                await _context.SaveChangesAsync();
+            ViewBag.Guests = await _context.Guests.ToListAsync();
+            return View(booking);
+        }
 
-                return RedirectToAction("Index");
-            }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,GuestId,CheckIn,CheckOut,RoomId")] Booking booking)
+        {
+            if (id != booking.Id) return NotFound();
 
-            if (room != null)
-            {
-                ViewBag.RoomType = room.Type;
-                ViewBag.RoomPrice = room.PricePerNight;
-            }
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var booking = await _context.Bookings
+                .Include(b => b.Guest)
+                .FirstOrDefaultAsync(b => b.Id == id);
+            if (booking == null) return NotFound();
 
             return View(booking);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            _context.Bookings.Remove(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var bookings = await _context.Bookings
+        .Include(b => b.Guest)
+        .ToListAsync();
+            return View(bookings);
         }
     }
 }

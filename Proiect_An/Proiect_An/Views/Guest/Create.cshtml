@@ -1,0 +1,18 @@
+﻿@model Proiect_An.Models.Guest
+
+<h2>Create Guest</h2>
+<form asp-action="Create" method="post">
+    <div>
+        <label>Name</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label>Phone Number</label>
+        <input asp-for="PhoneNumber" />
+    </div>
+    <div>
+        <label>Address</label>
+        <input asp-for="Address" />
+    </div>
+    <button type="submit">Create Guest</button>
+</form>

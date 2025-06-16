@@ -11,5 +11,6 @@ namespace Proiect_An.Data
         }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Guest> Guests { get; set; }
     }
 }
