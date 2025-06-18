@@ -1,25 +1,52 @@
-﻿@model Proiect_An.Models.Booking
+﻿@using Proiect_An.Models
+@using static Proiect_An.Models.Enums.RoomService
+@model Booking
 
-<h2>Create Booking</h2>
-<form asp-action="Create" method="post">
-    <input asp-for="RoomId" type="hidden"/>
-    <div>
+@{
+    ViewData["Title"] = "Create Booking";
+    var guests = ViewBag.Guests as List<Guest>;
+    var services = ViewBag.ServiceTypes as List<RoomServiceType>;
+}
 
-        <label>Guest</label>
-        <select asp-for="GuestId">
-            @foreach (var guest in (List<Proiect_An.Models.Guest>)ViewBag.Guests)
-            {
-                <option value="@guest.Id">@guest.Name</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label>Check In</label>
-        <input asp-for="CheckIn" type="date" />
-    </div>
-    <div>
-        <label>Check Out</label>
-        <input asp-for="CheckOut" type="date" />
-    </div>
-    <button type="submit">Book</button>
-</form>
+<div class="container mt-4">
+    <h2 class="mb-4">Create Booking</h2>
+
+    <form asp-action="Create" method="post" class="p-4 rounded-3 shadow-sm" style="background-color: #f8f6f3;">
+        <input asp-for="RoomId" type="hidden" />
+
+        <div class="mb-3">
+            <label asp-for="GuestId" class="form-label">Guest</label>
+            <select asp-for="GuestId" class="form-select">
+                @foreach (var guest in guests)
+                {
+                    <option value="@guest.Id">@guest.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CheckIn" class="form-label">Check In</label>
+            <input asp-for="CheckIn" type="date" class="form-control" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CheckOut" class="form-label">Check Out</label>
+            <input asp-for="CheckOut" type="date" class="form-control" value="@DateTime.Now.AddDays(1).ToString("dd-MM-yyyy")" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Extra Services</label>
+            <div class="form-check">
+                @foreach (var service in services)
+                {
+                    <div class="form-check mb-1">
+                        <input type="checkbox" class="form-check-input" name="SelectedServices" value="@service" id="service_@service" />
+                        <label class="form-check-label" for="service_@service">@service</label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-dark">Book</button>
+    </form>
+</div>

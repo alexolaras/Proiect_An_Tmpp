@@ -1,28 +1,63 @@
-﻿@model Proiect_An.Models.Booking
+﻿@using Proiect_An.Models
+@using static Proiect_An.Models.Enums.RoomService
+@model Booking
+
 @{
+    ViewData["Title"] = "Edit Booking";
+
     var guests = ViewBag.Guests as List<Proiect_An.Models.Guest>;
+    var allServices = Enum.GetValues(typeof(RoomServiceType)).Cast<RoomServiceType>().ToList();
+    var selectedServices = string.IsNullOrEmpty(Model.Services)
+        ? new List<RoomServiceType>()
+        : Model.Services.Split(',').Select(s => Enum.Parse<RoomServiceType>(s)).ToList();
 }
 
-<h2>Edit Booking</h2>
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="RoomId" />
-    <div>
-        <label>Guest</label>
-        <select asp-for="GuestId">
-            @foreach (var guest in guests)
-            {
-                <option value="@guest.Id")>@guest.Name</option>
-            }
-        </select>
+<div class="container mt-4">
+    <div class="p-4 rounded-3 shadow-sm" style="background-color: #f8f6f3;">
+        <h2 class="mb-4">Edit Booking</h2>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="RoomId" />
+
+            <div class="mb-3">
+                <label class="form-label">Guest</label>
+                <select asp-for="GuestId" class="form-select">
+                    @foreach (var guest in guests)
+                    {
+                        <option value="@guest.Id">
+                            @guest.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Check In</label>
+                <input asp-for="CheckIn" type="date" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Check Out</label>
+                <input asp-for="CheckOut" type="date" class="form-control" />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Extra Services</label><br />
+                @foreach (var service in allServices)
+                {
+                    <div class="form-check">
+                        <input type="checkbox"
+                               name="SelectedServices"
+                               class="form-check-input"
+                               value="@service"
+                               @(selectedServices.Contains(service) ? "checked" : "") />
+                        <label class="form-check-label">@service</label>
+                    </div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-dark">Save</button>
+        </form>
     </div>
-    <div>
-        <label>Check In</label>
-        <input asp-for="CheckIn" type="date" />
-    </div>
-    <div>
-        <label>Check Out</label>
-        <input asp-for="CheckOut" type="date" />
-    </div>
-    <button type="submit">Save</button>
-</form>
+</div>

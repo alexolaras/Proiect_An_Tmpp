@@ -3,6 +3,7 @@ using Proiect_An.Models;
 using Proiect_An.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Proiect_An.Models.DesignPatterns.Singleton;
 
 namespace Proiect_An.Controllers
 {
@@ -26,6 +27,9 @@ namespace Proiect_An.Controllers
         {
             _context.Guests.Add(guest);
             await _context.SaveChangesAsync();
+
+            Logger.Instance.Log("New guest with the id: " + guest.Id + ", was added");
+
             return RedirectToAction("Index");
         }
 

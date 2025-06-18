@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Proiect_An.Data;
+using Proiect_An.Models.DesignPatterns.FactoryMethod;
 
 namespace Proiect_An
 {
@@ -10,8 +11,10 @@ namespace Proiect_An
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IRoomFactory, ConcreteRoomFactory>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<MyAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
 
             var app = builder.Build();
 
@@ -31,7 +34,7 @@ namespace Proiect_An
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Booking}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

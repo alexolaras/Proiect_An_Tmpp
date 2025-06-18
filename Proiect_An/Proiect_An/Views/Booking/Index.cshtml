@@ -1,32 +1,50 @@
-﻿@model IEnumerable<Proiect_An.Models.Booking>
+﻿@using Proiect_An.Models.DesignPatterns.Decorator
+@model IEnumerable<Proiect_An.Models.Booking>
 
+@{
+    ViewData["Title"] = "All Bookings";
+}
 
-<h2>All Bookings</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Guest Name</th>
-            <th>Check In</th>
-            <th>Check Out</th>
-            <th>Room Id</th>
-            <th>Options</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var b in Model)
-        {
-            <tr>
-                <td>@b.Guest.Name</td>
-                <td>@b.CheckIn.ToShortDateString()</td>
-                <td>@b.CheckOut.ToShortDateString()</td>
-                <td>@b.RoomId</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@b.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@b.Id">Delete</a>
-                </td>
-            </tr>
-            
+<div class="container mt-4">
+    <div class="p-4 rounded-3 shadow-sm bg-light border">
+        <h2 class="mb-4 text-dark">All Bookings</h2>
 
-        }
-    </tbody>
-</table>
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-secondary text-dark">
+                <tr>
+                    <th>Guest Name</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Room Id</th>
+                    <th>Services</th>
+                    <th>Total Price</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.Guest.Name</td>
+                        <td>@b.CheckIn.ToShortDateString()</td>
+                        <td>@b.CheckOut.ToShortDateString()</td>
+                        <td>@b.RoomId</td>
+                        <td>
+                            @BookingDecoratorHelper.GetDescription(
+                                     b.Room,
+                                     b.CheckIn,
+                                     b.CheckOut,
+                                     b.Services?.Split(",") ?? Array.Empty<string>()
+                                     )
+                        </td>
+                        <td>@b.TotalPrice.ToString("N2") $</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-dark me-1" asp-action="Edit" asp-route-id="@b.Id">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@b.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

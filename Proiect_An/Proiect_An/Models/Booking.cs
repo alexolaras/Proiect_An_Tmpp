@@ -12,5 +12,7 @@ namespace Proiect_An.Models
         public Guest Guest { get; set; }
         public int RoomId { get; set; }
         public Room Room { get; set; }
+        public string Services { get; set; }
+        public double TotalPrice { get; set; }
     }
 }
