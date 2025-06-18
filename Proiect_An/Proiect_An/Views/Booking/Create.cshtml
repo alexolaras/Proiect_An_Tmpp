@@ -9,13 +9,13 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4">Create Booking</h2>
+    <h2 class="mb-4 text-dark">Create Booking</h2>
 
-    <form asp-action="Create" method="post" class="p-4 rounded-3 shadow-sm" style="background-color: #f8f6f3;">
+    <form asp-action="Create" method="post" class="p-4 rounded-3 shadow-sm border" style="background-color: #f8f9fa;">
         <input asp-for="RoomId" type="hidden" />
 
         <div class="mb-3">
-            <label asp-for="GuestId" class="form-label">Guest</label>
+            <label asp-for="GuestId" class="form-label text-dark">Guest</label>
             <select asp-for="GuestId" class="form-select">
                 @foreach (var guest in guests)
                 {
@@ -25,23 +25,25 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="CheckIn" class="form-label">Check In</label>
-            <input asp-for="CheckIn" type="date" class="form-control" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+            <label asp-for="CheckIn" class="form-label text-dark">Check In</label>
+            <input asp-for="CheckIn" type="date" class="form-control"
+                   value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="CheckOut" class="form-label">Check Out</label>
-            <input asp-for="CheckOut" type="date" class="form-control" value="@DateTime.Now.AddDays(1).ToString("dd-MM-yyyy")" />
+            <label asp-for="CheckOut" class="form-label text-dark">Check Out</label>
+            <input asp-for="CheckOut" type="date" class="form-control"
+                   value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Extra Services</label>
+            <label class="form-label text-dark">Extra Services</label>
             <div class="form-check">
                 @foreach (var service in services)
                 {
                     <div class="form-check mb-1">
                         <input type="checkbox" class="form-check-input" name="SelectedServices" value="@service" id="service_@service" />
-                        <label class="form-check-label" for="service_@service">@service</label>
+                        <label class="form-check-label text-dark" for="service_@service">@service</label>
                     </div>
                 }
             </div>

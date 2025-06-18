@@ -14,7 +14,7 @@ namespace Proiect_An.Models.DesignPatterns.Observer
 
             _notifier.Send(
                 to: booking.Guest.Address,
-                message: $"Booking #{booking.Id} confirmed for room {booking.RoomId}. The total price will be: {booking.TotalPrice}");
+                message: $"Booking #{booking.Id} confirmed for room {booking.RoomId}. The total price will be: ${booking.TotalPrice}");
         }
     }
 }
